@@ -1,0 +1,28 @@
+<template>
+    
+    <template if:true={isText}>
+        <lightning-input label={fieldLabel} type="search" value={fieldValue}
+            onchange={handleKeyChange} >
+        </lightning-input>
+    </template> 
+
+    <template if:true={isDate}>
+        <lightning-input type="date" name={fieldApiName} label={fieldLabel} value={fieldValue} onchange={handleKeyChange} ></lightning-input>
+    </template>
+
+    <template if:true={isNumber}>
+        <lightning-input type="number" name={fieldApiName} label={fieldLabel} value={fieldValue} onchange={handleKeyChange} ></lightning-input>
+    </template>
+
+    <template if:true={isDateTime}>
+        <lightning-input type="datetime" name={fieldApiName} label={fieldLabel} value={fieldValue} onchange={handleKeyChange} ></lightning-input>
+    </template>
+
+    <template if:true={isPicklist}>
+        
+        <c-custom-picklist-cmp sobject-api-name="Product2" sobject-field-api-name={fieldApiName} sobject-field-api-label={fieldLabel} 
+                            onpicklistupdate={handlePicklistUpdate}>
+        </c-custom-picklist-cmp>
+    </template>
+    
+</template>

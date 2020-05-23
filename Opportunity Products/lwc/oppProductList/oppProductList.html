@@ -1,0 +1,148 @@
+<template>
+    <template id="OppLineItemTable" if:true={hasProducts}>
+        <lightning-card>
+
+            <div slot="actions">
+                <lightning-button-group>
+                    <lightning-button
+                        label="Delete Lines"
+                        title="Delete Lines"
+                        onclick={handleDeleteLines} >
+                    </lightning-button>
+                    <lightning-button
+                        label="Cancel"
+                        title="Cancel"
+                        onclick={handleCancelJs} >
+                    </lightning-button>
+                    <lightning-button
+                        label="Save"
+                        title="Save"
+                        variant="brand"
+                        onclick={saveOppLineItemsJs} >
+                    </lightning-button>
+                </lightning-button-group>
+            </div>
+
+            <div id="containerDiv" > 
+                <div id="tableViewInnerDiv"  
+                    class="slds-scrollable_y tableViewInnerDiv tableScroll" >
+                    <table class="slds-table slds-table_bordered slds-table_header-fixed  slds-table_fixed-layout" 
+                        style="width: 100%; height: 100%">
+                        <thead>
+                            <tr class="slds-text-title_caps">
+                                <th class="dv-dynamic-width"
+                                    scope="col"
+                                    title="Select All"
+                                    style={smallFixedWidth}>
+                                
+                                    <div  style={smallFixedWidth}>
+                                        <a class="slds-th__action slds-text-link--reset">
+                                            <span class="slds-truncate">
+                                                <lightning-input type="checkbox"  value=""
+                                                    onchange={allSelected} >
+                                                </lightning-input>
+                                            </span>
+                                        </a>
+                                    </div>
+                                </th>        
+
+                                <template for:each={oppLineColumns} for:item="objColumn">
+                                    <th key={objColumn.API_Name__c} class="dv-dynamic-width"
+                                        scope="col" style={fixedWidth} title={objColumn.Field_Label__c}>
+                                        <div  style={fixedWidth} class={objColumn.DeveloperName}>
+                                            <a class="slds-th__action slds-text-link--reset">
+
+                                            <span class="slds-truncate" title={objColumn.API_Name__c} onclick={handleSorting}>{objColumn.Field_Label__c}</span>
+                                            <div class="slds-th__action">
+                                                <c-header-sorting 
+                                                column-api={objColumn.API_Name__c}
+                                                sort-by={sortBy}
+                                                sort-dir={sortDir}
+                                                onupdatesorting={handleSortingUpdate} >
+                                                </c-header-sorting>
+                                            
+                                                <template if:true={objColumn.Wrap_Text__c} >
+                                                <lightning-button-menu alternative-text="Show menu" variant="bare" class={objColumn.DeveloperName}
+                                                    icon-name="utility:chevrondown"
+                                                    onselect={handleWrapText}
+                                                    title={objColumn.Field_Label__c}>
+                                                    <lightning-menu-item value="wraptext" label="Wrap text"></lightning-menu-item>
+                                                    <lightning-menu-item value="cliptext" label="Clip text"></lightning-menu-item>
+                                                </lightning-button-menu>
+                                                </template>
+                                            </div>
+                                            </a>
+                                    </div>
+                                </th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <template for:each={oppLines} for:item="objOLI">
+                                <tr key={objOLI.Id} >
+                                    <td>
+                                        <div class="slds-truncate dv-dynamic-width" style={smallFixedWidth}>
+                                            <lightning-input
+                                                type="checkbox"
+                                                value=""
+                                                data-id={objOLI.Id}
+                                                class="selectinput">
+                                            </lightning-input>
+                                        </div>
+                                    </td>
+                                    <template for:each={oppLineColumns} for:item="objColumn" >
+                                        <td key={objColumn.API_Name__c}>
+                                            <div class="slds-truncate dv-dynamic-width " style={fixedWidth}>
+                                                <span class={objColumn.DeveloperName}  >
+                                                    <template if:false={objColumn.Editable__c}>
+                                                        <c-column-output
+                                                            sobject-record={objOLI}
+                                                            api-name={objColumn.API_Name__c}
+                                                            field-type={objColumn.Field_Type__c}
+                                                            wrap-text={defaultWrapHeader} >
+                                                        </c-column-output>
+                                                    </template>
+                                                    <template if:true={objColumn.Editable__c}>
+                                                        <c-column-input
+                                                            sobject-record={objOLI}
+                                                            api-name={objColumn.API_Name__c}
+                                                            field-type={objColumn.Field_Type__c}
+                                                            oncolumnupdate={handleColumnUpdate}
+                                                            ondiscounttypeupdate={handleAddDiscountUpdate} >
+                                                        </c-column-input>
+                                                    </template>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </template>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+        </lightning-card>
+    </template>
+
+    <template id="data" if:false={hasProducts}>
+        No Opportunity Product Found.
+    </template>
+
+    <template if:true={error}>
+        <div>{error}</div>
+    </template>
+
+    <c-confirm-modal
+        text-message="Are you sure you want to delete the selected Opportunity Product?"
+        header="Delete Opportunity Product"
+        onclosedialogaction={deleteOppLineItemsJs} >
+    </c-confirm-modal>
+
+    <div if:true={isLoading}>
+        <lightning-spinner
+            style="position: fixed;"
+            alternative-text="Loading..." >
+        </lightning-spinner>
+    </div>
+
+</template>

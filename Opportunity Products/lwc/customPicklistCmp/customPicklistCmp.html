@@ -1,0 +1,10 @@
+<template>
+    
+    <template if:true={isData} >
+        <lightning-combobox name="picklistVal" label={sobjectFieldApiLabel} value={fieldValue} 
+            options={picklistoptions}
+            onchange={handleChange} >
+        </lightning-combobox>
+
+    </template>
+</template>

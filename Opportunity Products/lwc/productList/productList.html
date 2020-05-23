@@ -1,0 +1,32 @@
+<template>
+
+    <template if:true={isLoading}>
+        <lightning-spinner style="position: fixed;" alternative-text="Loading...">
+        </lightning-spinner>
+    </template>
+  
+    <template if:false={error} >
+
+        <div style="height: 30rem;">
+            <lightning-datatable 
+                key-field="Id" 
+                data={productList} 
+                columns={columns} 
+                onsort={updateColumnSorting}
+                sorted-by={sortBy}
+                sorted-direction={sortDirection}
+                enable-infinite-loading={infiniteLoading}
+                onloadmore={loadMoreData}
+                selected-rows={preSelectedRows}> 
+            </lightning-datatable>
+        </div>
+        {loadMoreStatus}
+    </template>
+
+    <template if:true={error} >
+        <div>
+            {error}
+        </div>
+    </template>
+    
+</template>

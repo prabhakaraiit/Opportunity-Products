@@ -1,0 +1,33 @@
+<template>
+
+    <template if:false={error} >
+ 
+        <div class="slds-grid slds-grid_vertical">
+            
+            <div class="slds-col" >
+                <span> 
+                    <c-opp-product-list 
+                        record-id={recordId}
+                        record-type-name={recordTypeName}
+                        onclose={handleCloseJs} >
+                    </c-opp-product-list>
+                </span>
+            </div>
+            <div class="slds-col" style="margin-top: 30px;">
+                <span>
+                    <c-opp-product-selector  
+                        record-id={recordId}
+                        record-type-name={recordTypeName}
+                        pricebook-id={pricebook2Id}
+                        onopplineitemsupdate={handleOppLineItemsUpdate}>
+                    </c-opp-product-selector>
+                </span>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={error} >
+       <div>{error}</div>
+    </template>
+    
+</template>

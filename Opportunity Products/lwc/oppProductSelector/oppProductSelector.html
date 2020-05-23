@@ -1,0 +1,33 @@
+<template>
+    <lightning-card >
+        <div slot="actions">
+            <lightning-button-group>
+                <lightning-button  label={filterBtnLable} onclick={handleFilterAction} ></lightning-button>
+                <lightning-button variant="brand" label="Add Products" title="Add Products" 
+                    onclick={handleAddProducts} >
+                </lightning-button>
+            </lightning-button-group>        
+        </div>
+
+        <div class="slds-grid slds-gutters"> 
+            <div class={filterCls}>
+                <span>
+                    <c-opp-product-filters onfilterupdate={handleFilterUpdate}> 
+                    </c-opp-product-filters>
+                </span>
+            </div>
+            <div class={productCls}>
+                <span> 
+                    <c-product-list 
+                        record-id={recordId} 
+                        pricebook-id={pricebookId}
+                        record-type-name={recordTypeName}
+                        onlineitemlistupdate={handleLineItemListUpdate} >
+                    </c-product-list> 
+                </span>
+            </div>
+        </div>
+
+       
+    </lightning-card>
+</template>

@@ -1,0 +1,50 @@
+<template>
+    <template if:true={showModal}>
+        <section  role="dialog"  class="slds-modal slds-fade-in-open slds-modal_medium" onfocusout={delayedCloseModel}
+                aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" >
+            
+            <template if:true={isText} >
+                <lightning-input type="text"  value={fieldValue} 
+                    onblur={handleFocusout} onfocus={handleFocus}
+                    class="ltngInput" onchange={handleUpdate}>
+                </lightning-input>
+            </template>
+
+            <template if:true={isNumber} >
+                <lightning-input type="number"  value={fieldValue} class="ltngInput" 
+                    onblur={handleFocusout} onfocus={handleFocus} onchange={handleUpdate}>
+                </lightning-input> 
+            </template>
+
+            <template if:true={isCheckbox} >
+                <lightning-input type="checkbox"  checked={fieldValue} class="ltngInput" 
+                    onblur={handleFocusout} onfocus={handleFocus}
+                    onchange={handleUpdate} >
+                </lightning-input>
+            </template>
+
+            <template if:true={isDate} >
+            
+                <lightning-input type="date" value={fieldValue} class="ltngInput" 
+                    onblur={handleFocusout} onfocus={handleFocus} onchange={handleUpdate}  >
+                </lightning-input>
+            </template>
+
+            <template if:true={isDateTime} >
+                <lightning-input type="datetime" value={fieldValue} class="ltngInput" 
+                    onblur={handleFocusout} onfocus={handleFocus} onchange={handleUpdate} >
+                </lightning-input> 
+            </template>
+
+            <template if:true={isPicklist} >
+                <select class="slds-select"   
+                    onblur={handleFocusout} onfocus={handleFocus}
+                    onchange={handlePicklistUpdate}>
+                    <template for:each={picklistData} for:item="dataOption" >
+                        <option key={dataOption.strValue} value={dataOption.strValue}>{dataOption.strLabel}</option>
+                    </template>
+                </select>
+            </template>
+        </section>
+    </template>
+</template>

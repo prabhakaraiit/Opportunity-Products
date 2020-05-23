@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title="Filters" icon-name="standard:calibration">
+
+        <lightning-button  label="Reset" title="Reset" onclick={handleReset} slot="actions"></lightning-button>
+        
+        <div class="slds-m-horizontal_medium">
+            <template if:true={productFilters.data}>
+                
+                <template for:each={productFilters.data} for:item="filter">
+                    <span key={filter.strSobjectFieldName}>
+                        <c-product-filter-item  
+                            field-api-name={filter.strSobjectFieldName} 
+                            field-label={filter.strSobjectFieldLabel}  
+                            field-type={filter.strSobjectFieldType} 
+                            field-operator={filter.fieldOperator} 
+                            onfilterupdate={handleFilterUpdate}>
+                        </c-product-filter-item>
+                    </span>
+                </template>
+
+            </template> 
+
+            <template if:true={productFilters.error}>
+                No Filter Found.
+            </template>
+        </div>    
+
+    </lightning-card>
+</template>
